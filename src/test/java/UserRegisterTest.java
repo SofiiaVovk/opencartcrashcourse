@@ -1,8 +1,6 @@
 import com.opencart.navigation.Navigation;
-import com.opencart.steps.LogoutPageBL;
 import com.opencart.steps.MainPageBL;
 import com.opencart.steps.RegisterPageBL;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 import static com.opencart.enums.URLs.BASE_URL;
@@ -10,7 +8,7 @@ import static com.opencart.enums.URLs.BASE_URL;
 public class UserRegisterTest extends BaseTest {
 
     @Test(priority = 1)
-    public void registerUserWithValidParameters() throws InterruptedException {
+    public void registerUserWithValidParameters() {
         new Navigation().navigateToUrl(BASE_URL.getValue());
         MainPageBL mainPageBL = new MainPageBL();
         RegisterPageBL registerPageBL = mainPageBL.getHeaderPageBL()

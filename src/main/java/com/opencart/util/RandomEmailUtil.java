@@ -23,7 +23,7 @@ public class RandomEmailUtil {
         return HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private static String getSubstringByRegularExpression(String string, String regularExpression) {
+    private static String getSubstringWithRegularExpression(String string, String regularExpression) {
         Pattern r = Pattern.compile(regularExpression);
         Matcher m = r.matcher(string);
         if (m.find()) {
@@ -42,13 +42,16 @@ public class RandomEmailUtil {
         return email;
     }
 
-    public static String getChangePasswordURL() throws IOException, InterruptedException {
+    public static String getChangePasswordURL() {
         String[] emailDomains = email.split("@");
         String URL = URLs.TEMP_MAILS_URL.getValue() + "getMessages&login=" + emailDomains[0] + "&domain=" + emailDomains[1];
-        HttpResponse<String> response = getJsonByURL(URL);
-        String emailId = RandomEmailUtil.getSubstringByRegularExpression(response.body(), "\"id\":(\\d+)");
-        String URL1 = URLs.TEMP_MAILS_URL.getValue() + "readMessage&login=" + emailDomains[0] + "&domain=" + emailDomains[1] + "&id=" + emailId;
-        String messageBody = Helper.getValueByURLAndKey(URL1, "textBody");
-        return  RandomEmailUtil.getSubstringByRegularExpression(messageBody, "(http.*?)\\n\\n");
+        try {
+            HttpResponse<String> response = getJsonByURL(URL);
+            String emailId = RandomEmailUtil.getSubstringWithRegularExpression(response.body(), "\"id\":(\\d+)");
+            URL = URLs.TEMP_MAILS_URL.getValue() + "readMessage&login=" + emailDomains[0] + "&domain=" + emailDomains[1] + "&id=" + emailId;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return RandomEmailUtil.getSubstringWithRegularExpression(Helper.getValueByURLAndKey(URL, "textBody"), "(http.*?)\\n\\n");
     }
 }

@@ -1,8 +1,5 @@
 import com.opencart.navigation.Navigation;
-import com.opencart.pages.RegisterPage;
-import com.opencart.steps.ForgottenPageBL;
-import com.opencart.steps.MainPageBL;
-import com.opencart.steps.RegisterPageBL;
+import com.opencart.steps.*;
 import org.testng.annotations.Test;
 
 
@@ -23,17 +20,25 @@ public class UserLoginTest extends BaseTest {
                 .clickOnMyAccountButton()
                 .clickOnLogoutButton()
                 .clickContinue();
-        logoutAccount.verifyLogout(mainPageBL);
+        logoutAccount.verifyLogout();
     }
 
     @Test(priority = 2)
-    public void getChangePasswordURL() {
+    public void changeUserPassword() {
         new Navigation().navigateToUrl(BASE_URL.getValue());
-        MainPageBL mainPageBL = new MainPageBL();
-        ForgottenPageBL forgottenPageBL = mainPageBL.getHeaderPageBL()
+        HeaderPageBL headerPageBL = new HeaderPageBL();
+        ForgottenPageBL forgottenPageBL = headerPageBL
                 .clickOnMyAccountButton()
                 .clickOnLoginButton()
                 .clickOnForgottenPassword()
                 .changePasswordWithURL();
+        forgottenPageBL.verifyChangePassword();
+    }
+
+    @Test(priority = 3)
+    public void loginUserWithValidParameters(){
+        new Navigation().navigateToUrl(BASE_URL.getValue());
+        MainPageBL mainPageBL = new MainPageBL();
+        mainPageBL.verifyLoginWithNewPassword();
     }
 }

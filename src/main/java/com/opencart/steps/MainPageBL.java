@@ -6,9 +6,18 @@ public class MainPageBL {
         return new HeaderPageBL();
     }
 
-    public void verifyLogout(MainPageBL mainPageBL) {
-        mainPageBL.getHeaderPageBL()
+    public void verifyLogout() {
+        getHeaderPageBL()
                 .clickOnMyAccountButton()
                 .checkLoginButton();
+    }
+
+    public LoginPageBL verifyLoginWithNewPassword() {
+        getHeaderPageBL()
+                .clickOnMyAccountButton()
+                .clickOnLoginButton()
+                .loginUser()
+                .verifyUserLogin();
+        return new LoginPageBL();
     }
 }

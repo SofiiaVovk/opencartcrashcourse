@@ -8,50 +8,47 @@ import com.opencart.repository.RegisterModelRepository;
 import com.opencart.util.RandomEmailUtil;
 import org.testng.Assert;
 
-import java.io.IOException;
-
 public class ForgottenPageBL {
 
-    private ForgottenPasswordPage forgottenPage;
+    public static String newPassword;
+    private ForgottenPasswordPage forgottenPasswordPage;
     private SuccessResetPasswordPage successResetPasswordPage;
 
     public ForgottenPageBL() {
-        forgottenPage = new ForgottenPasswordPage();
+        forgottenPasswordPage = new ForgottenPasswordPage();
     }
 
     public ForgottenPageBL changePasswordWithURL() {
-        try {
-            RegisterModel registerModel = RegisterModelRepository.getRegisterModel();
-            inputEmail(registerModel.getEmail());
-            clickOnContinueButton();
-            new Navigation().navigateToUrl(RandomEmailUtil.getChangePasswordURL());
-            inputNewPassword(registerModel.getPassword());
-            clickOnContinueButton();
-            successResetPasswordPage = new SuccessResetPasswordPage();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
+        RegisterModel registerModel = RegisterModelRepository.getRegisterModel();
+        inputEmail(registerModel.getEmail());
+        clickOnContinueButton();
+        new Navigation().navigateToUrl(RandomEmailUtil.getChangePasswordURL());
+        ForgottenPageBL.newPassword = registerModel.getPassword();
+        inputNewPassword(ForgottenPageBL.newPassword);
+        clickOnContinueButton();
+
+        successResetPasswordPage = new SuccessResetPasswordPage();
         return this;
     }
 
     private void inputNewPassword(String password) {
-        forgottenPage.getNewPasswordInput().clear();
-        forgottenPage.getNewPasswordInput().sendKeys(password);
-        forgottenPage.getNewPasswordConfirmInput().clear();
-        forgottenPage.getNewPasswordConfirmInput().sendKeys(password);
+        forgottenPasswordPage.getNewPasswordInput().clear();
+        forgottenPasswordPage.getNewPasswordInput().sendKeys(password);
+        forgottenPasswordPage.getNewPasswordConfirmInput().clear();
+        forgottenPasswordPage.getNewPasswordConfirmInput().sendKeys(password);
     }
 
     private void inputEmail(String email) {
-        forgottenPage.getForgottenEmailInput().clear();
-        forgottenPage.getForgottenEmailInput().sendKeys(email);
+        forgottenPasswordPage.getForgottenEmailInput().clear();
+        forgottenPasswordPage.getForgottenEmailInput().sendKeys(email);
     }
 
     private void clickOnContinueButton() {
-        forgottenPage.getContinueButton().click();
+        forgottenPasswordPage.getContinueButton().click();
     }
 
     public void verifyChangePassword() {
         String expectedMessage = "Success: Your password has been successfully updated.";
-        Assert.assertEquals(successResetPasswordPage.getSuccessChangePasswordLink().getText(), expectedMessage, "Incorrect page title");
+        Assert.assertEquals(successResetPasswordPage.getSuccessAlert().getText(), expectedMessage, "Incorrect page title");
     }
 }
