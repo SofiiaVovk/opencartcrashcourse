@@ -1,7 +1,6 @@
 package com.opencart.datamodel;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 @Getter
 public class LoginModel {

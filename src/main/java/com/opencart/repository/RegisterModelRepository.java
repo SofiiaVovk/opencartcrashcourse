@@ -11,11 +11,10 @@ public class RegisterModelRepository {
 
     public static RegisterModel getRegisterModel() {
         String password = RandomStringUtils.randomAlphabetic(7);
-        String email = RandomEmailUtil.email;
         return RegisterModel.getBuilder()
                 .firstName(RandomStringUtils.randomAlphabetic(5))
                 .lastName(RandomStringUtils.randomAlphabetic(5))
-                .email(email)
+                .email(RandomEmailUtil.email)
                 .telephone(RandomStringUtils.randomNumeric(10))
                 .password(password)
                 .passwordConfirm(password)

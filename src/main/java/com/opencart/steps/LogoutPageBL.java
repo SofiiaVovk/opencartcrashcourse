@@ -2,8 +2,8 @@ package com.opencart.steps;
 
 import com.opencart.pages.LogoutPage;
 
-
 public class LogoutPageBL {
+
     private LogoutPage logoutPage;
 
     public LogoutPageBL() {

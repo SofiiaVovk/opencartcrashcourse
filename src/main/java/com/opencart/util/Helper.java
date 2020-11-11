@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-public class MainGET {
+public class Helper {
 
     public static String getValueByURLAndKey(String url, String key) {
         try {
@@ -16,23 +16,22 @@ public class MainGET {
             conn.setRequestMethod("GET");
             conn.connect();
 
-            int responsecode = conn.getResponseCode();
+            int responseCode = conn.getResponseCode();
 
-            if (responsecode != 200) {
-                throw new RuntimeException("HttpResponseCode: " + responsecode);
+            if (responseCode != 200) {
+                throw new RuntimeException("HttpResponseCode: " + responseCode);
             } else {
-
-                String inline = "";
+                StringBuilder inline = new StringBuilder();
                 Scanner scanner = new Scanner(URL.openStream());
 
                 while (scanner.hasNext()) {
-                    inline += scanner.nextLine();
+                    inline.append(scanner.nextLine());
                 }
                 scanner.close();
 
                 JSONParser parse = new JSONParser();
-                JSONObject data_obj = (JSONObject) parse.parse(inline);
-                return data_obj.get("textBody").toString();
+                JSONObject data_obj = (JSONObject) parse.parse(inline.toString());
+                return data_obj.get(key).toString();
             }
 
         } catch (Exception e) {

@@ -8,7 +8,6 @@ public class SuccessRegisterPage extends BasePage {
     @FindBy(xpath = ".//*[@id='content']/h1")
     private WebElement successTitle;
 
-
     public WebElement getSuccessTitle() {
         return successTitle;
     }

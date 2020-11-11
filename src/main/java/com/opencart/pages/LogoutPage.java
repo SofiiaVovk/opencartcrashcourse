@@ -8,5 +8,4 @@ public class LogoutPage extends BasePage{
     @Getter
     @FindBy(xpath = ".//*[@id='content']/div/div/a")
     private WebElement logoutButton;
-
 }
