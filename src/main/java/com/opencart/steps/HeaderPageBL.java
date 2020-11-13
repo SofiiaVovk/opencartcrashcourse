@@ -19,4 +19,8 @@ public class HeaderPageBL {
         headerPage.getRegisterButton().click();
         return new RegisterPageBL();
     }
+    public ShoppingCartPageBL clickOnShoppingCartButton(){
+        headerPage.getShoppingCartButton().click();
+        return new ShoppingCartPageBL();
+    }
 }
